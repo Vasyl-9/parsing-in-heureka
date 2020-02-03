@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -44,7 +45,7 @@ public class ParsingHtml {
 
                 String searchUrl = baseUrl + "/?h%5Bfraze%5D=" + URLEncoder.encode(String.valueOf(searchQuery), "UTF-8") + "&min=&max=&gty=new&o=3";
                 HtmlPage page = client.getPage(searchUrl);
-                List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//div[@class='product']");
+                List<HtmlElement> items = page.getByXPath("//div[@class='product']");
 
                 if (items.isEmpty()) {
                     row.createCell(1).setCellValue("0");
@@ -52,7 +53,7 @@ public class ParsingHtml {
                 } else {
                     for (HtmlElement htmlItem : items) {
 
-                        HtmlAnchor itemAnchor = (htmlItem.getFirstByXPath(".//div[@class='desc']/div/h2/a"));
+                        HtmlAnchor itemAnchor = htmlItem.getFirstByXPath(".//div[@class='desc']/div/h2/a");
                         if (itemAnchor == null) {
                             row.createCell(1).setCellValue("0");
                             row.createCell(0).setCellValue(String.valueOf(searchArray.get(i)));
@@ -85,8 +86,9 @@ public class ParsingHtml {
                 client.close();
             }
         }
-        FileOutputStream fileOut = new FileOutputStream("asd.xlsx");
+        FileOutputStream fileOut = new FileOutputStream("output.xlsx");
         workbook.write(fileOut);
+        System.out.println("The parsing was successfully completed and saved to file \"output.xlsx\".");
         fileOut.close();
     }
 }
