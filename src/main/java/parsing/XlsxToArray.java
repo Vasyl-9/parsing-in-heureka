@@ -1,16 +1,15 @@
 package parsing;
 
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 public class XlsxToArray {
 
-    private List<StringBuilder> ArrayParts= new ArrayList<StringBuilder>();
+    private List<StringBuilder> ArrayParts = new ArrayList<StringBuilder>();
 
     public List<StringBuilder> getArrayParts() {
         return ArrayParts;
@@ -24,8 +23,8 @@ public class XlsxToArray {
         writeItemNameToArray();
     }
 
-    public void writeItemNameToArray(){
-      OpenXlsx openXlsx = new OpenXlsx();
+    public void writeItemNameToArray() {
+        OpenXlsx openXlsx = new OpenXlsx();
 
         Iterator<Row> rowIterator = openXlsx.openXlsx().iterator();
 
@@ -46,12 +45,6 @@ public class XlsxToArray {
                 }
             }
             setArrayParts(a);
-
-
-
-
-
         }
-
     }
 }
