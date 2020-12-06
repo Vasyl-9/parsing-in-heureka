@@ -1,19 +1,16 @@
 package parsing;
 
 public class Item {
-    private String title;
-    private double price;
+    private final String title;
+    private final double price;
+
+    public Item(String title, double price) {
+        this.title = title;
+        this.price = price;
+    }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     public double getPrice() {
