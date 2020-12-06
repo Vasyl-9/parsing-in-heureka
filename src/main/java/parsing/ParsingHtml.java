@@ -14,14 +14,14 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-public class ParsingHtml {
+class ParsingHtml {
     private final List<StringBuilder> searchArray;
 
-    public ParsingHtml(List<StringBuilder> searchArray) {
+    ParsingHtml(final List<StringBuilder> searchArray) {
         this.searchArray = searchArray;
     }
 
-    public List<Item> parsePrices() {
+    List<Item> parsePrices() {
         List<CompletableFuture<Item>> priceFuture = searchArray.stream()
                 .map(searchField -> CompletableFuture.supplyAsync(() -> parseHTML(searchField, new WebClient()),
                         executor(searchArray.size())))
@@ -29,7 +29,7 @@ public class ParsingHtml {
         return priceFuture.stream().map(CompletableFuture::join).collect(Collectors.toList());
     }
 
-    private Executor executor(int size) {
+    private static Executor executor(int size) {
         return Executors.newFixedThreadPool(Math.min(size, 100), (Runnable r) -> {
             Thread t = new Thread(r);
             t.setDaemon(true);
@@ -37,11 +37,11 @@ public class ParsingHtml {
         });
     }
 
-    private Item parseHTML(StringBuilder searchQuery, WebClient client) {
+    private static Item parseHTML(StringBuilder searchQuery, WebClient client) {
         // Webclient setting
         client.getOptions().setCssEnabled(false);
         client.getOptions().setJavaScriptEnabled(false);
-        String baseUrl = "https://heureka.sk";
+        final String baseUrl = "https://heureka.sk";
         String searchUrl = null;
         try {
             searchUrl = baseUrl + "/?h%5Bfraze%5D=" + URLEncoder.encode(String.valueOf(searchQuery),
